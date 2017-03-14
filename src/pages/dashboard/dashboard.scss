@@ -1,0 +1,14 @@
+page-dashboard {
+    .button-md{
+        background: $theme-secundary-1;
+    }
+    .button-md.activated{
+        background: $theme-secundary-2;
+    }
+    .fab{
+        background: $theme-secundary-1;
+    }
+    .fab:hover{
+        background: $theme-secundary-2;
+    }
+}

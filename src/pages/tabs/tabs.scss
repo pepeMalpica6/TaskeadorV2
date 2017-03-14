@@ -1,0 +1,25 @@
+page-tabs {
+    .tabs-md .tab-button[aria-selected=true] {
+        padding: 0;
+        color: $white;
+        background: $theme-primary-2;
+    }
+    .tabs-md .tabbar {
+        background: $theme-primary-1;
+    }
+    .tabs-md .tab-button[aria-selected=true] .tab-button-icon {
+        color: $white;
+    }
+    //IOS
+    .tabs-ios .tab-button[aria-selected=true] {
+        padding: 0;
+        color: $white;
+        background: $theme-primary-2;
+    }
+    .tabs-ios .tabbar {
+        background: $theme-primary-1;
+    }
+    .tabs-ios .tab-button[aria-selected=true] .tab-button-icon {
+        color: $white;
+    }
+}

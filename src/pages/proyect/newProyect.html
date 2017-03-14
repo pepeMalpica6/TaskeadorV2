@@ -1,0 +1,37 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>
+      <ion-icon name="create"></ion-icon> Create proyect
+    </ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list>
+        <ion-item [(ngModel)]="proyectName">
+            <ion-label floating>Proyect name</ion-label>
+            <ion-input></ion-input>
+        </ion-item>
+        <ion-item [(ngModel)]="description">
+            <ion-label floating>Description</ion-label>
+            <ion-input></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>Start Date: </ion-label>
+            <ion-datetime displayFormat="DDD/MMM/YYYY" [(ngModel)]="startDate"></ion-datetime>
+        </ion-item>
+        <ion-item>
+            <ion-label>Delivery Date: </ion-label>
+            <ion-datetime displayFormat="DDD/MMM/YYYY" [(ngModel)]="finishDate"></ion-datetime>
+        </ion-item>
+    </ion-list>
+    <button ion-button icon-left large (click)="cancel()" class="cancel-action">
+        <ion-icon name="close-circle"></ion-icon> Cancel
+    </button>
+    <button ion-button icon-left large (click)="newProyect()">
+        <ion-icon name="add-circle"></ion-icon> Create
+    </button>
+</ion-content>

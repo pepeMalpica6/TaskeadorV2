@@ -1,0 +1,37 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>
+      <ion-icon name="cube"></ion-icon> My proyects
+    </ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <button ion-button (click)="newProyect()">
+    <ion-icon name="md-add"></ion-icon>
+    Nuevo proyecto
+  </button>
+  <ion-card>
+    <ion-card-header>
+      <h2>LiquorDepot</h2>
+    </ion-card-header>
+    <ion-card-content>
+      Una empresa 100% mexicana con aspiraciones de algun dia llegar a todos
+      los paises del mundo.
+      <ion-buttons end>
+        <button ion-button color="danger" icon-only class="card-btn-remove" (click)="deleteProyect()">
+          <ion-icon name="md-trash"></ion-icon>
+        </button>
+        <button ion-button  icon-only class="card-btn" >
+          <ion-icon name="md-create"></ion-icon>
+        </button>
+        <button ion-button  icon-only class="card-btn" >
+          <ion-icon name="md-information-circle"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

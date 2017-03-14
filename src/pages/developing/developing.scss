@@ -1,0 +1,18 @@
+page-developing {
+    .card-btn-remove{
+        background-color: red !important;
+        height: 30px;
+        
+    }
+    .card-btn-remove.activated{
+        background-color: darkred !important;
+        height: 30px;
+        
+    }
+    .button-md{
+        background: $theme-secundary-1;
+    }
+    .button-md.activated{
+        background: $theme-secundary-2;
+    }
+}
