@@ -1,29 +1,69 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 
 import { NewProyectPage } from'./newProyect';
+import{ PepeApi } from'../../providers/pepe-api';
 
 @Component({
   selector: 'page-proyect',
-  templateUrl: 'proyect.html'
+  templateUrl: 'proyect.html',
+  providers: [ PepeApi ]
 })
 export class ProyectPage {
+  proyectsLoaded: any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
-              public alertCtrl: AlertController) {}
+              public alertCtrl: AlertController,
+              public toastCtrl: ToastController,
+              public pepeApi: PepeApi
+              ) {
+                this.getProyects();
+              }
 
-  ionViewDidLoad() {
-    
+  private getProyects() {
+          this.pepeApi.get('proyect')
+                .then((data)=>{
+                  this.proyectsLoaded = data.proyects;
+                }).catch((err)=>{
+                  this.toast(err);
+                });
   }
 
-  private deleteProyect(){
-    this.showAlert("deleteProyect","Eliminar proyecto con su id");
+  private deleteProyect(id,name){
+    let alert = this.alertCtrl.create({
+      title: 'Delete this proyect?',
+      message: 'Are you sure than whant to delete '+name+' proyect?',
+      cssClass: 'alertTheme',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Ok!',
+          handler: () => {
+            let dataToSend = this.castToJson({ id: id,});
+            this.pepeApi.delete('proyect',dataToSend)
+                .then((data)=>{
+                  this.toast('Proyect deleted succesfuly!');
+                  this.navCtrl.pop();
+                }).catch((err)=>{
+                  this.showAlert('Error (x)',err);
+                  this.toast(err);
+                });
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   private newProyect(){
     this.navCtrl.push(NewProyectPage);
-    //this.prompAlert();
   }
 
   private showAlert(mTitle, messagge) {
@@ -36,38 +76,42 @@ export class ProyectPage {
     alert.present();
   }
 
-  private prompAlert() {
-  let alert = this.alertCtrl.create({
-    title: 'Create new proyect',
-    cssClass: 'alertTheme',
-    inputs: [
-      {
-        name: 'proyectName',
-        placeholder: 'Proyect name'
-      },
-      {
-        name: 'proyectDescription',
-        placeholder: 'Description',
-        type: 'text'
-      }
-    ],
-    buttons: [
-      {
-        text: 'Cancel',
-        role: 'cancel',
-        handler: data => {
-          console.log('Cancel clicked');
+  private presentConfirm() {
+    let alert = this.alertCtrl.create({
+      title: 'Delete this proyect?',
+      message: 'Are you sure than whant to delete this proyect?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Ok!',
+          handler: () => {
+            console.log('Buy clicked');
+          }
         }
-      },
-      {
-        text: 'Ok',
-        handler: data => {
-          
-        }
-      }
-    ]
-  });
-  alert.present();
-}
+      ]
+    });
+    alert.present();
+  }
 
+
+  private toast(message) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000
+    });
+    toast.present();
+  }
+
+    //convert a json object to the url encoded format of key=value&anotherkye=anothervalue
+  private castToJson(jsonString){
+      return Object.keys(jsonString).map(function(key){
+        return encodeURIComponent(key) + '=' + encodeURIComponent(jsonString[key]);
+      }).join('&');
+  }
 }

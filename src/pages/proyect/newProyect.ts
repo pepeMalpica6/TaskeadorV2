@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
+
 import{ PepeApi } from'../../providers/pepe-api';
+import{ DashboardPage } from'../dashboard/dashboard';
 
 @Component({
   selector: 'page-proyect',
@@ -16,25 +18,31 @@ export class NewProyectPage {
               public navParams: NavParams,
               public alertCtrl: AlertController,
               public toastCtrl: ToastController,
-              public pepeApi: PepeApi) {}
-
-  testConnection(){
-    this.pepeApi.load()
-    .then(data => {
-      this.toast(data);
-    });
+              public pepeApi: PepeApi) {                
   }
 
-  ionViewDidLoad() {
-    
-  }
 
   private newProyect(){
-      this.pepeApi.load()
-        .then(data => {
-         //   console.log(data);
+        let dataToSend: any;
+        dataToSend = this.castToJson({ name: this.proyectName, description: this.description,
+                dateStart: this.startDate,dateFinish: this.finishDate });
+
+        this.pepeApi.post('proyect',dataToSend)
+        .then((res) => {
+          this.toast('Proyect added succesfuly !');
+          this.navCtrl.popAll();// (DashboardPage);
+        }, (err) => {
+            this.toast(err);
         });
-      console.log("{ 'proyectName': '"+this.proyectName + "', 'date: ' "+this.finishDate+"}");
+  }
+
+  private getProyects(){
+    this.pepeApi.load()
+        .then((data) => {
+          this.toast(data);
+        }).catch((err)=>{
+            this.toast("Hey, there is a error!! (x)");
+        });
   }
 
   private cancel(){
@@ -46,6 +54,22 @@ export class NewProyectPage {
       duration: 3000
     });
     toast.present();
+  }
+  private presentAlert(title, message) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      subTitle: message,
+      buttons: ['Dismiss']
+    });
+    alert.present();
+  }
+
+
+  //convert a json object to the url encoded format of key=value&anotherkye=anothervalue
+  private castToJson(jsonString){
+      return Object.keys(jsonString).map(function(key){
+        return encodeURIComponent(key) + '=' + encodeURIComponent(jsonString[key]);
+      }).join('&');
   }
 
 

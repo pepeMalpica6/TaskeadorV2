@@ -14,15 +14,15 @@
     <ion-icon name="md-add"></ion-icon>
     Nuevo proyecto
   </button>
-  <ion-card>
+
+  <ion-card *ngFor="let proyect of this.proyectsLoaded">
     <ion-card-header>
-      <h2>LiquorDepot</h2>
+      <h2>{{ proyect.name }}</h2>
     </ion-card-header>
     <ion-card-content>
-      Una empresa 100% mexicana con aspiraciones de algun dia llegar a todos
-      los paises del mundo.
+      {{ proyect.description }}
       <ion-buttons end>
-        <button ion-button color="danger" icon-only class="card-btn-remove" (click)="deleteProyect()">
+        <button ion-button color="danger" icon-only class="card-btn-remove" (click)="deleteProyect(proyect._id,proyect.name)">
           <ion-icon name="md-trash"></ion-icon>
         </button>
         <button ion-button  icon-only class="card-btn" >
